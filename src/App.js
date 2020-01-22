@@ -5,7 +5,8 @@ import NoteListNav from './Components/NoteListNav/NoteListNav';
 import NotePageNav from './Components/NotePageNav/NotePageNav';
 import NoteListMain from './Components/NoteListMain/NoteListMain';
 import NotePageMain from './Components/NotePageMain/NotePageMain';
-import dummyStore from './dummy-store';
+import ApiContext from './ApiContext';
+import config from './config';
 import './App.css';
 import {getNotesForFolder, findNote, findFolder} from './noteful-helpers';
 
@@ -17,12 +18,38 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // setTimeout(() => this.setState(dummyStore), 600);
-    // fake date loading from API call
-    this.setState(dummyStore)
+    fetch(`${config.API_ENDPOINT}/notes`)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+          } else {
+            throw new Error(res.statusText);
+          }
+      })
+      .then(data => {
+        this.setState({ notes: [...data]});
+      })
+      .catch(e => console.log(e));
+
+      fetch(`${config.API_ENDPOINT}/folders`)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error(res.statusText);
+        }
+      })
+      .then(data => {
+        this.setState({ folders: [...data] });
+      })
+      .catch(e => console.log(e));
 }
 
-
+handleDeleteNote = noteId => {
+  this.setState({
+      notes: this.state.notes.filter(note => note.id !== noteId)
+  });
+};
   
 
   renderNavRoutes() {
@@ -97,9 +124,15 @@ renderMainRoutes() {
 }
 
 render() {
+  const value ={
+    notes:this.state.notes,
+    folders: this.state.folders,
+    deleteNote: this.handleDeleteNote
+  }
     return (
         <div className="App">
-            <nav className="App__nav">{this.renderNavRoutes()}</nav>
+          <ApiContext.Provider value ={value}>
+          <nav className="App__nav">{this.renderNavRoutes()}</nav>
             <header className="App__header">
                 <h1>
                     <Link to="/">Noteful</Link>{' '}
@@ -107,6 +140,7 @@ render() {
                 </h1>
             </header>
             <main className="App__main">{this.renderMainRoutes()}</main>
+          </ApiContext.Provider>
         </div>
     );
 }
