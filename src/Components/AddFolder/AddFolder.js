@@ -14,6 +14,7 @@ constructor(props){
   }
 }
 static contextType = ApiContext;
+
 updateName(name){
   this.setState({name: {value:name, touched:true}});
 }
@@ -31,12 +32,11 @@ handleAddNewFolder = (event) => {
   })
   .then(response => {
     if (!response.ok) {
-      console.log("An error occured");
       throw new Error("This is a problem");
     }
     return response;
   })
-  .then(res => res.json())
+  .then(response => response.json())
   .then(data => {
     this.context.addFolder(data)
     this.props.history.push('/');
@@ -59,7 +59,7 @@ render(){
            />
         </div>
       <div className="submit-button">
-        <button type="submit"> Add Your Folder </button> 
+        <button type="submit"> Submit </button> 
       </div>
       
         
