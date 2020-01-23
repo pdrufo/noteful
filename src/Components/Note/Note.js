@@ -7,9 +7,7 @@ import config from '../../config'
 import ApiContext from '../../ApiContext'
  
 class Note extends React.Component {
-  static defaultProps ={
-    onDeleteNote: () => {},
-  }
+  
   static contextType = ApiContext;
 
   handleClickDelete = e => {
@@ -21,19 +19,19 @@ class Note extends React.Component {
         'content-type': 'application/json'
       },
     })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-        return res.json()
-      })
-      .then(() => {
-        this.context.deleteNote(noteId)
-        // allow parent to perform extra behaviour
-        this.props.onDeleteNote(noteId)
-      })
-      .catch(error => {
-        console.error({ error })
-      })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
+    })
+    .then(data => {
+      this.context.deleteNote(this.props.id);
+      this.props.handleDeleteNote(this.props.id);
+    })
+    .catch(e => console.log(e));
+      
 
   }
   render () {
@@ -58,8 +56,8 @@ class Note extends React.Component {
             Modified
             {' '}
             <span className='Date'>
-              {format(new Date(this.props.modified), 'Do MMM yyyy')}
-              {/* {props.modified} */}
+              {/* {format(new Date(this.props.modified), 'Do MMM yyyy')} */}
+              {this.props.modified}
             </span>
           </div>
         </div>

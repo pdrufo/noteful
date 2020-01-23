@@ -5,6 +5,7 @@ import NoteListNav from './Components/NoteListNav/NoteListNav';
 import NotePageNav from './Components/NotePageNav/NotePageNav';
 import NoteListMain from './Components/NoteListMain/NoteListMain';
 import NotePageMain from './Components/NotePageMain/NotePageMain';
+import AddFolder from './Components/AddFolder/AddFolder';
 import ApiContext from './ApiContext';
 import config from './config';
 import './App.css';
@@ -50,6 +51,12 @@ handleDeleteNote = noteId => {
       notes: this.state.notes.filter(note => note.id !== noteId)
   });
 };
+
+handleAddFolder = (folder) => {
+  this.setState({
+    fodlers: [...this.state.folders, folder]
+  })
+}
   
 
   renderNavRoutes() {
@@ -81,7 +88,7 @@ handleDeleteNote = noteId => {
                     return <NotePageNav {...routeProps} folder={folder} />;
                 }}
             />
-            <Route path="/add-folder" component={NotePageNav} />
+            <Route path="/add-folder" component={AddFolder} />
             <Route path="/add-note" component={NotePageNav} />
         </>
     );
@@ -127,7 +134,8 @@ render() {
   const value ={
     notes:this.state.notes,
     folders: this.state.folders,
-    deleteNote: this.handleDeleteNote
+    deleteNote: this.handleDeleteNote,
+    addFolder: this.handleAddFolder
   }
     return (
         <div className="App">
