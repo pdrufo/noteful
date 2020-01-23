@@ -48,14 +48,16 @@ handleAddNewFolder = (event) => {
 render(){
   return (
     <form onSubmit={this.handleAddNewFolder}>
-      <label htmlFor="addFolder" Add New Folder></label>
-      <input
-          required
-          type="text"
-          name="addFolder"
-          id="addFolder"
-          onChange={e => this.updateName(e.target.value)}
-          />
+      <label htmlFor="addFolder"> Add New Folder</label>
+        <div className="form-input">
+          <input
+           required
+           type="text"
+           name="addFolder"
+           id="addFolder"
+           onChange={e => this.updateName(e.target.value)}
+           />
+        </div>
       <div className="submit-button">
         <button type="submit"> Add Your Folder </button> 
       </div>
