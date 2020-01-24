@@ -10,6 +10,7 @@ import ApiContext from './ApiContext';
 import config from './config';
 import './App.css';
 import {getNotesForFolder, findNote, findFolder} from './noteful-helpers';
+import AddNote from './Components/AddNote/AddNote';
 
 class App extends Component {
   
@@ -57,7 +58,12 @@ handleAddFolder = (folder) => {
     fodlers: [...this.state.folders, folder]
   })
 }
-  
+
+handleAddNote = (note) => {
+  this.setState({
+    notes: [...this.state.notes, note]
+  })
+}
 
   renderNavRoutes() {
     
@@ -89,7 +95,7 @@ handleAddFolder = (folder) => {
                 }}
             />
             <Route path="/add-folder" component={AddFolder} />
-            <Route path="/add-note" component={NotePageNav} />
+            <Route path="/add-note" component={AddNote} />
         </>
     );
 }
@@ -135,7 +141,8 @@ render() {
     notes:this.state.notes,
     folders: this.state.folders,
     deleteNote: this.handleDeleteNote,
-    addFolder: this.handleAddFolder
+    addFolder: this.handleAddFolder,
+    addNote: this.handleAddNote
   }
     return (
         <div className="App">
