@@ -6,11 +6,11 @@ import './NotePageMain.css'
 
 
 class  NotePageMain extends React.Component {
-  // static defaultProps = {
-  //   match: {
-  //     params: {}
-  //   }
-  // }
+  static defaultProps = {
+    match: {
+      params: {}
+    }
+  }
   static contextType = ApiContext
 
   handleDeleteNote = noteId => {
@@ -18,9 +18,9 @@ class  NotePageMain extends React.Component {
   }
 
   render() {
-    // const { notes=[] } = this.context
-    // const { noteId } = this.props.match.params
-    // const note = findNote(notes, noteId) || { content: '' }
+    const { notes=[] } = this.context
+    const { noteId } = this.props.match.params
+    const note = findNote(notes, noteId) || { content: '' }
     return (
       <section className='NotePageMain'>
         <Note
@@ -36,11 +36,6 @@ class  NotePageMain extends React.Component {
         </div>
       </section>
     )
-  }
-}
-NotePageMain.defaultProps = {
-  note: {
-    content: '',
   }
 }
 

@@ -5,6 +5,7 @@ import CircleButton from '../CircleButton/CircleButton'
 import { countNotesForFolder } from '../../noteful-helpers'
 import './NoteListNav.css'
 import ApiContext from '../../ApiContext'
+import propTypes from 'prop-types'
 
 
 class NoteListNav extends React.Component {
@@ -45,6 +46,9 @@ return (
 )
 }
 }
-
+NoteListNav.propTypes = {
+  key: propTypes.string,
+  path: propTypes.string
+}
 
 export default NoteListNav

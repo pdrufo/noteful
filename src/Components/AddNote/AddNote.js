@@ -2,6 +2,7 @@ import React from 'react'
 import ApiContext from '../../ApiContext'
 import config from '../../config'
 import './AddNote.css'
+import ValidationError from '../ValidationError/ValidationError'
 
 class AddNote extends React.Component{
   constructor(props){
@@ -34,6 +35,22 @@ class AddNote extends React.Component{
     this.setState({content: {value: content, touched: true}})
   }
   
+  validateName() {
+    const name = this.state.name.value.trim();
+    if (name.length === 0) {
+      return 'Name is required';
+    }
+  }
+
+  validateFolder() {
+    const folder = this.state.folder.value.trim();
+    if (folder === '...') {
+      return 'Folder is required'
+    } else if (folder.length === 0) {
+      return 'Folder is required'
+    }
+  }
+
 
   handleAddNewNote = (event) => {
     event.preventDefault()
@@ -64,6 +81,8 @@ class AddNote extends React.Component{
       })
   }
   render() {
+    const nameError = this.validateName();
+    const folderError = this.validateFolder()
     const { folders } = this.context
     return (
       <section className="Noteful-form">
@@ -78,6 +97,9 @@ class AddNote extends React.Component{
             id="nameInput"
             name="noteName"
             onChange={e=> this.updateName(e.target.value)}/>
+             {this.state.name.touched && 
+                <ValidationError 
+                  message={nameError} />}
           </div>
           <div>
             <label className='addFormLabel' htmlFor='folderSelect'>
@@ -93,6 +115,9 @@ class AddNote extends React.Component{
                   </option>
                 )}
               </select>
+              {this.state.name.touched && 
+                <ValidationError 
+                  message={folderError} />}
               <div>
               <label className='addFormLabel' htmlFor='noteContent'>
                 Content:  
@@ -102,7 +127,13 @@ class AddNote extends React.Component{
                 name='noteContent'
                 onChange={e=> this.updateContent(e.target.value)} />
               </div>
-              <button type="submit">Add Note</button>
+              <button
+               type="submit"
+               disabled={
+               this.validateFolder() ||
+               this.validateName()
+               }
+               >Add Note</button>
              
             </div>
 

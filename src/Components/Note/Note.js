@@ -5,9 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Note.css'
 import config from '../../config'
 import ApiContext from '../../ApiContext'
+import PropTypes from 'prop-types'
  
 class Note extends React.Component {
-  
+ 
+
   static contextType = ApiContext;
 
   handleClickDelete = e => {
@@ -56,17 +58,18 @@ class Note extends React.Component {
             Modified
             {' '}
             <span className='Date'>
-              {/* {format(new Date(this.props.modified), 'Do MMM yyyy')} */}
-              {this.props.modified}
+              {format(new Date(this.props.modified), 'Do MMM yyyy')}
+              {/* {this.props.modified} */}
             </span>
           </div>
         </div>
       </div>
-    
-  
-  
   )
     }
 }
-
+Note.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  modified: PropTypes.string
+}
 export default Note
