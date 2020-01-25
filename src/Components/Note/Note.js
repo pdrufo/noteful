@@ -37,6 +37,7 @@ class Note extends React.Component {
 
   }
   render () {
+    
     return (
       <div className='Note'>
         <h2 className='Note__title'>
@@ -58,6 +59,7 @@ class Note extends React.Component {
             Modified
             {' '}
             <span className='Date'>
+              
               {format(new Date(this.props.modified), 'Do MMM yyyy')}
               {/* {this.props.modified} */}
             </span>
