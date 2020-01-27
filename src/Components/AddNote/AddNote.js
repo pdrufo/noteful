@@ -4,6 +4,7 @@ import config from '../../config'
 import './AddNote.css'
 import ValidationError from '../ValidationError/ValidationError'
 
+
 class AddNote extends React.Component{
   constructor(props){
     super(props);
