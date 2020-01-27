@@ -51,13 +51,12 @@ class AddNote extends React.Component{
     }
   }
 
-
   handleAddNewNote = (event) => {
     event.preventDefault()
     const newNote = {
       name: event.target['noteName'].value,
       content: event.target['noteContent'].value,
-      folder_id: event.target['folderId'].value,
+      folderId: event.target['folderId'].value,
       modified: new Date()
     }
     fetch(`${config.API_ENDPOINT}/notes`, {
@@ -80,6 +79,7 @@ class AddNote extends React.Component{
         console.error({ error })
       })
   }
+
   render() {
     const nameError = this.validateName();
     const folderError = this.validateFolder()
@@ -105,7 +105,7 @@ class AddNote extends React.Component{
             <label className='addFormLabel' htmlFor='folderSelect'>
                 Folder:  
             </label>
-              <select id='folderSelect' name='folderId' onChange={e => this.updateFolder(e.target.value)}>
+              <select id='folderId' name='folderId' onChange={e => this.updateFolder(e.target.value)}>
                 <option value={null}>...</option>
                 {folders.map(folder =>
                   <option 
@@ -134,9 +134,7 @@ class AddNote extends React.Component{
                this.validateName()
                }
                >Add Note</button>
-             
-            </div>
-
+          </div>
         </form>
       </section>
     )

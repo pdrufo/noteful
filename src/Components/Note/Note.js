@@ -8,7 +8,9 @@ import ApiContext from '../../ApiContext'
 import PropTypes from 'prop-types'
  
 class Note extends React.Component {
- 
+  static defaultProps ={
+    handleDeleteNote: () => {},
+  }
 
   static contextType = ApiContext;
 
@@ -22,22 +24,20 @@ class Note extends React.Component {
       },
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error(res.statusText);
-      }
+      if (!res.ok)
+        return res.json().then(e => Promise.reject(e))
+      return res.json()
     })
-    .then(data => {
-      this.context.deleteNote(this.props.id);
-      this.props.handleDeleteNote(this.props.id);
+    .then(() => {
+      this.context.deleteNote(noteId)
+      this.props.handleDeleteNote(noteId)
     })
-    .catch(e => console.log(e));
-      
-
+    .catch(error => {
+      console.error({ error })
+    })
   }
+
   render () {
-    
     return (
       <div className='Note'>
         <h2 className='Note__title'>
@@ -59,9 +59,7 @@ class Note extends React.Component {
             Modified
             {' '}
             <span className='Date'>
-              
-              {format(new Date(this.props.modified), 'Do MMM yyyy')}
-              {/* {this.props.modified} */}
+              {this.props.modified ? format(new Date(this.props.modified), 'yyyy-MM-dd') : null}
             </span>
           </div>
         </div>
@@ -70,8 +68,8 @@ class Note extends React.Component {
     }
 }
 Note.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  name: PropTypes.string,
   modified: PropTypes.string
 }
 export default Note

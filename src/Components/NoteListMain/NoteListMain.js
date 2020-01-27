@@ -9,18 +9,18 @@ import { getNotesForFolder } from '../../noteful-helpers'
 
 
 class  NoteListMain extends React.Component {
-  // static defaultProps = {
-  //   match: {
-  //     params: {}
-  //   }
-  // }
+  static defaultProps = {
+    match: {
+      params: {}
+    }
+  }
   static contextType = ApiContext
 
   render() {
     const { folderId } = this.props.match.params
     const { notes=[] } = this.context
     const notesForFolder = getNotesForFolder(notes, folderId)
-  // const { notes } = this.context;
+  
   return (
     <section className='NoteListMain'>
       <ul>
@@ -47,9 +47,8 @@ class  NoteListMain extends React.Component {
         </CircleButton>
       </div>
     </section>
-   
-  )
-}
+    )
+  }
 }
 
 export default NoteListMain

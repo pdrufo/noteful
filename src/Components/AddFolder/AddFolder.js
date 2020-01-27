@@ -16,6 +16,12 @@ constructor(props){
     }
   }
 }
+static defaultProps = {
+  history: {
+    push: () => { }
+  },
+}
+
 static contextType = ApiContext;
 
 updateName(name){
@@ -50,13 +56,12 @@ handleAddNewFolder = (event) => {
     return response;
   })
   .then(response => response.json())
-  .then(data => {
-    this.context.addFolder(data)
-    this.props.history.push('/');
+  .then(folder => {
+    this.context.addFolder(folder)
+    this.props.history.push(`/`)
   })
   .catch(e => console.log(e));
 }
-
 
 render(){
   const nameError = this.validateFolderName(); 
@@ -74,7 +79,7 @@ render(){
            {this.state.name.touched && 
              <ValidationError message={nameError} />
            }
-        </div>
+      </div>
       <div className="submit-button">
         <button
          type="submit"
@@ -83,10 +88,8 @@ render(){
         </button> 
       </div>
     </form>
-    
-  )
+    )
+  }
 }
-}
-
 
 export default AddFolder

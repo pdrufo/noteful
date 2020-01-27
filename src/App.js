@@ -11,6 +11,7 @@ import config from './config';
 import './App.css';
 import {getNotesForFolder, findNote, findFolder} from './noteful-helpers';
 import AddNote from './Components/AddNote/AddNote';
+import NoteError from './Components/NoteError/NoteError'
 
 class App extends Component {
   
@@ -47,7 +48,7 @@ class App extends Component {
       .catch(e => console.log(e));
 }
 
-handleDeleteNote = noteId => {
+handleDeleteNote = (noteId) => {
   this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId)
   });
@@ -55,7 +56,7 @@ handleDeleteNote = noteId => {
 
 handleAddFolder = (folder) => {
   this.setState({
-    fodlers: [...this.state.folders, folder]
+    folders: [...this.state.folders, folder]
   })
 }
 
@@ -147,6 +148,7 @@ render() {
     return (
         <div className="App">
           <ApiContext.Provider value ={value}>
+          <NoteError>
           <nav className="App__nav">{this.renderNavRoutes()}</nav>
             <header className="App__header">
                 <h1>
@@ -155,6 +157,7 @@ render() {
                 </h1>
             </header>
             <main className="App__main">{this.renderMainRoutes()}</main>
+            </NoteError>
           </ApiContext.Provider>
         </div>
     );
