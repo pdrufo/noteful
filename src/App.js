@@ -11,7 +11,7 @@ import config from './config';
 import './App.css';
 import {getNotesForFolder, findNote, findFolder} from './noteful-helpers';
 import AddNote from './Components/AddNote/AddNote';
-import NoteError from './Components/NoteError/NoteError'
+import ErrorBoundary from './Components/ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
   
@@ -147,18 +147,18 @@ render() {
   }
     return (
         <div className="App">
-          <ApiContext.Provider value ={value}>
-          <NoteError>
-          <nav className="App__nav">{this.renderNavRoutes()}</nav>
-            <header className="App__header">
+         <ErrorBoundary>
+           <ApiContext.Provider value ={value}>
+             <nav className="App__nav">{this.renderNavRoutes()}</nav>
+             <header className="App__header">
                 <h1>
                     <Link to="/">Noteful</Link>{' '}
                     <FontAwesomeIcon icon="check-double" />
                 </h1>
-            </header>
-            <main className="App__main">{this.renderMainRoutes()}</main>
-            </NoteError>
-          </ApiContext.Provider>
+             </header>
+             <main className="App__main">{this.renderMainRoutes()}</main>
+            </ApiContext.Provider>
+          </ErrorBoundary>
         </div>
     );
 }
